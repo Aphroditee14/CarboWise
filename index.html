@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CarboWise</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+  <script src="https://cdn.botpress.cloud/webchat/v3.0/inject.js"></script>
+  <script src="https://files.bpcontent.cloud/2025/06/08/07/20250608070904-DPC9TNNK.js"></script>
+
+  <style>
+    html, body, #root {
+      height: 100%;
+      margin: 0;
+    }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+                   Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background-color: #ffffff;
+      color: #6b7280;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    a:hover, a:focus {
+      text-decoration: underline;
+      outline: none;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+     position: sticky;
+      top: 0;
+      background: #fbbe247c;
+      border-bottom: 1px solid #f0f40a;
+      z-index: 50;
+      user-select: none;
+      height: 100px;
+      overflow: hidden;
+    }
+   
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .logo {
+      font-weight: 800;
+      font-size: 1.5rem;
+      color: #111827;
+      user-select: none;
+    }
+    nav ul {
+      display: flex;
+      gap: 2rem;
+    }
+    nav ul li a {
+      font-weight: 600;
+      font-size: 1rem;
+      color: #6b7280;
+      transition: color 0.3s ease;
+    }
+    nav ul li a:hover, nav ul li a:focus {
+      color: #111827;
+      outline: none;
+    }
+    main {
+      padding-top: 4rem;
+      padding-bottom: 5rem;
+      flex-grow: 1;
+    }
+    .hero {
+      text-align: center;
+      padding: 4rem 0 5rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero h1 {
+      font-weight: 800;
+      font-size: clamp(3rem, 6vw, 4.5rem);
+      line-height: 1.1;
+      color: #111827;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      font-size: 1.125rem;
+      line-height: 1.5;
+      color: #6b7280;
+      margin-bottom: 2rem;
+    }
+    .btn-primary {
+      font-weight: 700;
+      font-size: 1.125rem;
+      padding: 1rem 2.5rem;
+      color: #fff;
+      background-color: #111827;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 6px rgb(0 0 0 / 0.1);
+      user-select: none;
+      display: inline-block;
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+    }
+    .btn-primary:hover, .btn-primary:focus {
+      background-color: #374151;
+      outline: none;
+    }
+    .animated-box {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin: 1rem auto 3rem;
+      background: radial-gradient(circle at center, #fef3c7 40%, #fbbf24 80%);
+      box-shadow:
+        0 0 12px #fbbf24,
+        0 0 20px #fbbf24,
+        0 0 30px #fbbf24,
+        0 0 40px #fbbf24;
+      filter: drop-shadow(0 0 4px #fbbf24);
+      transform-origin: center center;
+      cursor: default;
+    }
+    .card {
+      background: white;
+      border-radius: 0.75rem;
+      box-shadow: 0 1px 4px rgb(0 0 0 / 0.05);
+      padding: 2rem;
+      margin-bottom: 3rem;
+    }
+    form > div {
+      margin-bottom: 1.5rem;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #111827;
+      margin-bottom: 0.5rem;
+    }
+    input[type="text"], input[type="file"] {
+      width: 100%;
+      border: 1px solid #d1d5db;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      padding: 0.75rem 1rem;
+      outline-offset: 2px;
+      transition: border-color 0.3s ease;
+    }
+    input[type="text"]:focus, input[type="file"]:focus {
+      border-color: #111827;
+      box-shadow: 0 0 0 2px rgb(156 163 175 / 0.4);
+      outline: none;
+    }
+    button {
+      background: #111827;
+      color: white;
+      font-weight: 700;
+      font-size: 1.125rem;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      width: 100%;
+      box-shadow: 0 4px 6px rgb(0 0 0 / 0.1);
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+    button:hover:enabled, button:focus:enabled {
+      background: #374151;
+      outline: none;
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    #results h2 {
+      font-weight: 700;
+      font-size: 2rem;
+      color: #111827;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .results-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      max-width: 700px;
+      margin: 0 auto 3rem;
+    }
+    @media (min-width: 768px) {
+      .results-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .result-card {
+      background: #adc1d2;
+      border-radius: 0.75rem;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 1px 4px rgb(0 0 0 / 0.05);
+    }
+    .result-card img {
+      width: 32px;
+      height: 32px;
+      opacity: 0.7;
+      flex-shrink: 0;
+    }
+    .result-text {
+      font-weight: 600;
+      color: #374151;
+      font-size: 1.125rem;
+    }
+    .result-subtext {
+      color: #6b7280;
+      font-size: 1rem;
+    }
+    ul.low-carbon-alternatives {
+      max-width: 700px;
+      margin: 0 auto;
+      color: #374151;
+      list-style-type: disc;
+      padding-left: 1.25rem;
+      font-size: 1rem;
+      line-height: 1.5;
+      margin-bottom: 3rem;
+    }
+     .bp-widget {
+    position: fixed !important;
+    bottom: 24px !important;
+    right: 24px !important;
+    z-index: 99999 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+  body {
+    overflow: visible !important;
+  }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+    const { gsap } = window;
+
+    const ICONS = {
+      "Car travel": "https://cdn-icons-png.flaticon.com/512/743/743922.png",
+      "Flights": "https://cdn-icons-png.flaticon.com/512/744/744469.png",
+      "Electricity": "https://cdn-icons-png.flaticon.com/512/3064/3064197.png",
+      "Meat consumption": "https://cdn-icons-png.flaticon.com/512/616/616408.png",
+      "Dairy consumption": "https://cdn-icons-png.flaticon.com/512/2907/2907761.png",
+      "Vegetable consumption": "https://cdn-icons-png.flaticon.com/512/1076/1076838.png",
+    };
+
+    function formatNumber(num) {
+      return num.toLocaleString(undefined, { maximumFractionDigits: 2 });
+    }
+
+    function FlickeringBulb() {
+      const bulbRef = useRef(null);
+
+      useEffect(() => {
+        if (bulbRef.current) {
+          const tl = gsap.timeline({ repeat: -1, yoyo: true, repeatDelay: 0.1 });
+          tl.to(bulbRef.current, {
+            duration: 0.15,
+            opacity: gsap.utils.random(0.85, 1),
+            filter:
+              "drop-shadow(0 0 8px #fbbf24) drop-shadow(0 0 20px #fbbf24)",
+            scale: gsap.utils.random(0.97, 1.02),
+            ease: "power1.inOut",
+            transformOrigin: "center center",
+          });
+          tl.to(bulbRef.current, {
+            duration: 0.15,
+            opacity: 1,
+            filter:
+              "drop-shadow(0 0 12px #fbbf24) drop-shadow(0 0 30px #fbbf24)",
+            scale: 1,
+            ease: "power1.inOut",
+            transformOrigin: "center center",
+          });
+          return () => tl.kill();
+        }
+      }, []);
+
+      return <div className="animated-box" ref={bulbRef} aria-hidden="true" />;
+    }
+
+    function InputField({ label, name, value, onChange, placeholder }) {
+      return (
+        <div>
+          <label htmlFor={name}>{label}</label>
+          <input
+            type="text"
+            id={name}
+            name={name}
+            value={value}
+            onChange={onChange}
+            placeholder={placeholder}
+            inputMode="decimal"
+            autoComplete="off"
+            className="w-full rounded-md border border-gray-300 focus:border-gray-900 focus:ring-2 focus:ring-gray-300 px-4 py-3 text-gray-900 font-semibold text-lg placeholder-gray-400 transition"
+          />
+        </div>
+      );
+    }
+
+    function App() {
+      const [inputs, setInputs] = useState({
+        car_miles: "",
+        flight_hours: "",
+        electricity_kwh: "",
+        meat_kg: "",
+        dairy_kg: "",
+        vegetables_kg: "",
+      });
+      const [csvFile, setCsvFile] = useState(null);
+      const [result, setResult] = useState(null);
+      const [loading, setLoading] = useState(false);
+      const [error, setError] = useState(null);
+
+      function handleChange(e) {
+        const { name, value } = e.target;
+        if (value === "" || /^[0-9]*\.?[0-9]*$/.test(value)) {
+          setInputs((prev) => ({ ...prev, [name]: value }));
+        }
+      }
+
+      function handleFileChange(e) {
+        setCsvFile(e.target.files[0]);
+      }
+
+      async function handleSubmit(e) {
+        e.preventDefault();
+        setError(null);
+        setResult(null);
+        setLoading(true);
+        try {
+          const payload = {};
+          for (const key in inputs) {
+            payload[key] = inputs[key] === "" ? 0 : parseFloat(inputs[key]);
+          }
+          const res = await fetch("http://127.0.0.1:5000/api/calculate-footprint", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          if (!res.ok) throw new Error("Failed to calculate footprint");
+          const data = await res.json();
+          setResult(data);
+        } catch (err) {
+          setError(err.message || "Unexpected error");
+        }
+        setLoading(false);
+      }
+
+      async function handleCsvSubmit(e) {
+        e.preventDefault();
+        if (!csvFile) {
+          setError("Please select a CSV file first.");
+          return;
+        }
+        setError(null);
+        setResult(null);
+        setLoading(true);
+        try {
+          const formData = new FormData();
+          formData.append("file", csvFile);
+          const res = await fetch("http://127.0.0.1:5000/api/calculate-footprint-csv", {
+            method: "POST",
+            body: formData,
+          });
+          if (!res.ok) throw new Error("Failed to calculate from CSV");
+          const data = await res.json();
+          setResult(data);
+        } catch (err) {
+          setError(err.message || "Unexpected error");
+        }
+        setLoading(false);
+      }
+
+      return (
+        <>
+          <header>
+            <nav className="container" aria-label="Primary Navigation">
+              <div className="logo">Carbon Footprint Estimator</div>
+              <ul>
+                <li>
+                  <a href="#calculate">Calculate</a>
+                </li>
+                <li>
+                  <a href="#csv-upload">Upload CSV</a>
+                </li>
+                <li>
+                  <a href="#results">Results</a>
+                </li>
+              </ul>
+            </nav>
+          </header>
+
+          <main className="container" role="main">
+            <section aria-labelledby="hero-title" className="hero">
+              <h1 id="hero-title" className="heading" >
+                CarboWise? It’s Giving Main Character Energy 
+              </h1>
+              <FlickeringBulb />
+              <p>
+                Understand your environmental impact by entering your lifestyle
+                data or uploading your CSV. Get actionable suggestions to reduce
+                your carbon footprint.
+              </p>
+              <a href="#calculate" className="btn-primary">
+                Start Estimating
+              </a>
+            </section>
+
+            <section id="calculate" aria-labelledby="form-title" className="card">
+              <h2 id="form-title">Enter Your Lifestyle Data</h2>
+              <form onSubmit={handleSubmit} noValidate>
+                <InputField label="Car Travel (miles per year)" name="car_miles" value={inputs.car_miles} onChange={handleChange} placeholder="e.g. 12000" />
+                <InputField label="Flight Time (hours per year)" name="flight_hours" value={inputs.flight_hours} onChange={handleChange} placeholder="e.g. 15" />
+                <InputField label="Electricity Usage (kWh per year)" name="electricity_kwh" value={inputs.electricity_kwh} onChange={handleChange} placeholder="e.g. 3500" />
+                <InputField label="Meat Consumption (kg per year)" name="meat_kg" value={inputs.meat_kg} onChange={handleChange} placeholder="e.g. 70" />
+                <InputField label="Dairy Consumption (kg per year)" name="dairy_kg" value={inputs.dairy_kg} onChange={handleChange} placeholder="e.g. 50" />
+                <InputField label="Vegetable Consumption (kg per year)" name="vegetables_kg" value={inputs.vegetables_kg} onChange={handleChange} placeholder="e.g. 100" />
+                <button type="submit" className="btn-primary" disabled={loading}>{loading ? "Calculating..." : "Calculate Footprint"}</button>
+              </form>
+            </section>
+
+            <section id="csv-upload" aria-labelledby="csv-label" className="card">
+              <h2 id="csv-label">Or Upload CSV Data</h2>
+              <p>
+                Upload a CSV file with columns: <code>car_miles,flight_hours,electricity_kwh,meat_kg,dairy_kg,vegetables_kg</code>.
+                Values should be yearly totals.
+              </p>
+              <form onSubmit={handleCsvSubmit} noValidate>
+                <input type="file" accept=".csv,text/csv" onChange={handleFileChange} />
+                <button type="submit" className="btn-primary" disabled={loading}>{loading ? "Calculating..." : "Calculate from CSV"}</button>
+              </form>
+            </section>
+
+            <section id="results" aria-live="polite" aria-atomic="true" className="card">
+              {error && <div role="alert" style={{color:"#dc2626",fontWeight:"600"}}>Error: {error}</div>}
+              {result && (
+                <>
+                  <h2>Your Carbon Footprint Results</h2>
+                  <div style={{textAlign:"center",margin:"2rem 0"}}>
+                    <p style={{fontSize:"2.5rem", fontWeight:"700", color:"#111827"}}>
+                      {formatNumber(result.total_kg_co2)} kg CO₂e/year
+                    </p>
+                    <p style={{color:"#6b7280"}}>Estimated total annual CO₂ equivalent emissions</p>
+                  </div>
+                  <div style={{display:"grid", gridTemplateColumns:"1fr", gap:"1rem", maxWidth:"700px", margin:"0 auto 3rem"}}>
+                    {Object.entries(result.breakdown || {}).map(([key, val]) => (
+                      <div key={key} style={{display:"flex",alignItems:"center",gap:"1rem",padding:"1rem", background:"#f9fafb",borderRadius:"12px"}}>
+                        <img src={ICONS[key]} alt={`${key} icon`} width="32" height="32" style={{opacity:0.7,flexShrink:0}}/>
+                        <div>
+                          <h3 style={{fontWeight:"700",color:"#374151",margin:0}}>{key}</h3>
+                          <p style={{margin:0,color:"#6b7280"}}>{formatNumber(val)} kg CO₂e</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div>
+                    <h3 style={{fontWeight:"700",color:"#111827",margin:"2rem 0 0.5rem"}}>Low-Carbon Alternatives</h3>
+                    <ul style={{color:"#374151",listStyleType:"disc",paddingLeft:"1.25rem", fontSize:"1rem", lineHeight:1.5, marginBottom:"3rem"}}>
+                      {Object.entries(result.low_carbon_alternatives).map(([key,sugg]) => (
+                        <li key={key}><strong>{key}:</strong> {sugg}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </>
+              )}
+            </section>
+          </main>
+
+          <footer style={{background:"#fbbe247c", borderTop:"1px solid #F8F4F4FF", padding:"2rem 0", textAlign:"center", color:"#11263BFF", fontSize:"0.875rem"}}>
+            &copy; 2025 CarboWise. All rights reserved.
+          </footer>
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+<script src="https://cdn.botpress.cloud/webchat/v3.0/inject.js"></script>
+<script src="https://files.bpcontent.cloud/2025/06/08/07/20250608070904-DPC9TNNK.js"></script>
+</html>
